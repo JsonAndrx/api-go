@@ -1,20 +1,21 @@
 package database
 
 import (
-	"api-rest/helper"
 
 	// "time"
 
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
-
+	"api-rest/api/users/models"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-func ConectDb() (*sqlx.DB){
-    db, err := sqlx.Connect("mysql", "root:@/doublev")
+func ConectDb() *gorm.DB {
+	db, err := gorm.Open("mysql", "root:root@(db_maria:3306)/notihub")
 	if err != nil {
-		helper.ErrorPanic(err)
+		panic(err)
 	}
 
-    return db
+	db.AutoMigrate(&models.UserModel{})
+
+	return db
 }
