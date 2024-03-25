@@ -7,9 +7,9 @@ import (
 )
 
 func RoutesUser(router *gin.RouterGroup) {
-	routes_user := router.Group("/users")
+	routeUser := router.Group("/users")
 	{
-		routes_user.GET("/", services.GetUsersService)
-		routes_user.POST("/create/", services.CreateUserService)
+		routeUser.GET("/", services.GetUsersService)
+		routeUser.POST("/create/", services.CreateUserService)
 	}
 }

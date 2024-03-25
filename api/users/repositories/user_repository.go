@@ -1,18 +1,17 @@
 package repositories
 
 import (
-	"api-rest/config/database"
 	"api-rest/api/users/models"
+	"api-rest/config/database"
 )
-
 
 func CreateUserRepository(user *models.UserModel) (bool, error) {
 	db := database.ConectDb()
-	user_result := db.Create(&user)
+	userResult := db.Create(&user)
 
-	if user_result.Error != nil {
-		return false, user_result.Error
-	} 
+	if userResult.Error != nil {
+		return false, userResult.Error
+	}
 
 	return true, nil
 }

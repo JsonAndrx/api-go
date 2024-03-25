@@ -16,8 +16,8 @@ func main() {
 	log.Info().Msg("Starting server...")
 	routes := gin.Default()
 
-	routes_api := routes.Group("/api/v1")
-	handlers.RoutesUser(routes_api)
+	routesApi := routes.Group("/api/v1")
+	handlers.RoutesUser(routesApi)
 
 	server := &http.Server{
 		Addr:    ":8080",
