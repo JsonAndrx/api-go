@@ -35,6 +35,16 @@ func CreateUserService(c *gin.Context) {
 		return
 	}
 
+	exists, err := repositories.GetUserByEmailRepository(request.Email)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, response.ErrorResponse("Error while checking the email", err.Error()))
+		return
+	}
+	if exists {
+		c.JSON(http.StatusBadRequest, response.ErrorResponse("Email already exists", nil))
+		return
+	}
+
 	countryResponse, err := location.GetLocation(c.ClientIP())
 	if err != nil {
 		panic(err)
@@ -46,14 +56,12 @@ func CreateUserService(c *gin.Context) {
 		return
 	}
 
-	user := models.UserModel{
+	user := models.User{
 		FirstName:      request.FirstName,
 		LastName:       request.LastName,
 		Email:          request.Email,
 		Password:       string(hashedPassword),
 		Country:        countryResponse,
-		TypeMembership: 0,
-		CodeMembership: "test",
 		Role:           "user",
 		IsActive:       true,
 	}
@@ -64,5 +72,19 @@ func CreateUserService(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, response.SuccessResponse("User created successfully", createdUser))
+	createMembership, err:= CreateMembersService(createdUser, 1)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, response.ErrorResponse("Error while creating the membership", err.Error()))
+		return
+	}
+
+
+
+	_, err = repositories.UpdateUserMembershipRepository(createdUser, createMembership)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, response.ErrorResponse("Error while updating the user", err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, response.SuccessResponse("User created successfully", createMembership))
 }

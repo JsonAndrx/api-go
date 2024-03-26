@@ -9,7 +9,6 @@ import (
 
 func GetLocation(ip string) (string, error) {
 	ipapiClient := http.Client{}
-	fmt.Println(ip, "yeison")
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://ipapi.co/%s/country_name/", ip), nil)
 	if err != nil {
 		log.Fatal(err)

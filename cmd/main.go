@@ -9,11 +9,15 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 
+	"api-rest/config/database"
+
 	"net/http"
 )
 
 func main() {
 	log.Info().Msg("Starting server...")
+	database.ConectDb()
+
 	routes := gin.Default()
 
 	routesApi := routes.Group("/api/v1")
