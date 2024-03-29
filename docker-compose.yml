@@ -5,11 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8081:8081"
     volumes:
       - ./:/app
     depends_on:
       - db_maria
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   db_maria:
     image: mariadb:10.5.13

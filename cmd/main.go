@@ -24,7 +24,7 @@ func main() {
 	handlers.RoutesUser(routesApi)
 
 	server := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":8081",
 		Handler: routes,
 	}
 
