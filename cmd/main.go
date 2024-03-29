@@ -3,7 +3,8 @@ package main
 import (
 	// "fmt"
 
-	"api-rest/api/users/handlers"
+	client "api-rest/api/clients/handlers"
+	users "api-rest/api/users/handlers"
 	"api-rest/api/utils/response"
 
 	"github.com/gin-gonic/gin"
@@ -21,7 +22,8 @@ func main() {
 	routes := gin.Default()
 
 	routesApi := routes.Group("/api/v1")
-	handlers.RoutesUser(routesApi)
+	users.RoutesUser(routesApi)
+	client.RoutesClient(routesApi)
 
 	server := &http.Server{
 		Addr:    ":8081",

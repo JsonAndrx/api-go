@@ -10,7 +10,7 @@ func SuccessResponse(message string, data interface{}) types.SuccessResponse {
 
 	}
 	return types.SuccessResponse{
-		Status:  false,
+		Status:  true,
 		Message: message,
 		Data:    data,
 	}
@@ -25,4 +25,9 @@ func ErrorResponse(message string, error interface{}) types.ErrorResponse {
 		Message: message,
 		Erorr:   error,
 	}
+}
+
+type FieldError struct {
+	Field string `json:"field"`
+	Error string `json:"error"`
 }

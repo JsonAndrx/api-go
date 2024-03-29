@@ -16,6 +16,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 func GetUsersService(c *gin.Context) {
@@ -47,9 +48,14 @@ func GetUsersService(c *gin.Context) {
 func CreateUserService(c *gin.Context) {
 	var request types.UserCreateRequest
 
-	if err := c.BindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, response.ErrorResponse("Invalid request", err.Error()))
-		return
+	if err := c.ShouldBindJSON(&request); err != nil {
+		errs := err.(validator.ValidationErrors)
+		if len(errs) > 0 {
+			e := errs[0]
+			response_error := fmt.Sprintf("%s is %s", e.Field(), e.Tag())
+			c.JSON(http.StatusBadRequest, response.ErrorResponse(response_error, nil))
+			return
+		}
 	}
 
 	exists, err := repositories.GetUserByEmailRepository(request.Email)

@@ -4,7 +4,8 @@ import (
 
 	// "time"
 
-	"api-rest/api/users/models"
+	UserModel "api-rest/api/users/models"
+	ClientModel "api-rest/api/clients/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -15,10 +16,11 @@ func ConectDb() *gorm.DB {
 		panic(err)
 	}
 
-	db.Model(&models.Members{}).AddForeignKey("type_membership_id", "type_memberships(id)", "CASCADE", "CASCADE")
-	db.Model(&models.Members{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
-	db.Model(&models.User{}).AddForeignKey("membership_id", "members(id)", "CASCADE", "CASCADE")
-	db.AutoMigrate(&models.User{}, &models.TypeMembership{}, &models.Members{})
+	db.Model(&UserModel.Members{}).AddForeignKey("type_membership_id", "type_memberships(id)", "CASCADE", "CASCADE")
+	db.Model(&UserModel.Members{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
+	db.Model(&UserModel.User{}).AddForeignKey("membership_id", "members(id)", "CASCADE", "CASCADE")
+	db.Model(&ClientModel.Client{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
+	db.AutoMigrate(&UserModel.User{}, &UserModel.TypeMembership{}, &UserModel.Members{}, &ClientModel.Client{})
 
 	seedTypeMemberships(db)
 
@@ -27,12 +29,12 @@ func ConectDb() *gorm.DB {
 
 func seedTypeMemberships(db *gorm.DB) {
 	var count int
-    db.Model(&models.TypeMembership{}).Count(&count)
+    db.Model(&UserModel.TypeMembership{}).Count(&count)
     if count > 0 {
         return
     }
 
-	typeMemberships := []models.TypeMembership{
+	typeMemberships := []UserModel.TypeMembership{
 		{TypeMembership: "Free", DayMembership: 15, AmountNotification: 25},
 		{TypeMembership: "Basic", DayMembership: 30, AmountNotification: 150},
 		{TypeMembership: "Pro", DayMembership: 30, AmountNotification: 300},
