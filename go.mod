@@ -38,6 +38,7 @@ require (
 	github.com/radovskyb/watcher v1.0.7 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.3 // indirect
+	github.com/robfig/cron/v3 v3.0.0 // indirect
 	github.com/rs/zerolog v1.32.0 // indirect
 	github.com/twilio/twilio-go v1.19.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect

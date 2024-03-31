@@ -5,6 +5,7 @@ import (
 
 	client "api-rest/api/clients/handlers"
 	users "api-rest/api/users/handlers"
+	"api-rest/api/utils/cronjobs"
 	"api-rest/api/utils/response"
 
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,7 @@ import (
 func main() {
 	log.Info().Msg("Starting server...")
 	database.ConectDb()
+	cronjobs.StartCronNotification()
 
 	routes := gin.Default()
 
